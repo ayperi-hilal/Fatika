@@ -29,7 +29,9 @@ const Meals = ({ navigation,route }) => {
     }
 
     
-
+    const handleRepiceSelect = idMeal => {
+        navigation.navigate('Detay', { idMeal });
+    }
 
     const renderMaels = ({ item }) => (
         <RepiceCard
@@ -37,9 +39,7 @@ const Meals = ({ navigation,route }) => {
             onSelect={() => handleRepiceSelect(item.idMeal)}
         />
     )
-    const handleRepiceSelect = idMeal => {
-        navigation.navigate('Detay', { idMeal });
-    }
+    
 
     if (loading) {
         return <ActivityIndicator size="large" />

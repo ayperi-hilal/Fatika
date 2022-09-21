@@ -1,53 +1,57 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Image, SafeAreaView, StyleSheet } from 'react-native'
-import Button from "../components/Button/Button";
-import {API_DETAIL} from '@env';
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, ActivityIndicator, FlatList, StyleSheet, Dimensions,Linking } from "react-native";
+import { API_DETAIL } from '@env'
+import DetailCard from "../components/Card/DetailCard";
 
 
+const Details = ({ route }) => {
 
+    const { idMeal } = route.params;//id yakalandı.
 
-const Details = ({route}) => {
+    // console.log(idMeal);//bu noktada id kontrolü yapıldı.
 
-    const [loading,setLoading]=useState(true);
-    const [error,setError]=useState(null);
-    conts [data,setData]=useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [data, setData] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchData();
-    },[]);
+    }, []);
 
-    const fetchData=async()=>{
+    const fetchData = async () => {
         try {
-            const {data:responseData}=await axios.get(`${Config.API_DETAIL}${idMeal}`);
+            const { data: responseData } = await axios.get(`${API_DETAIL}${idMeal}`);
             setData(responseData);
             setLoading(false);
         } catch (err) {
             setData(err.message);
-            setLoading(true); 
+            setLoading(true);
         }
     }
-   
-    
-    const {idMeal}=route.params;
 
+    if (loading) {
+        return <ActivityIndicator size="large" />
+    }
+
+    if (error) {
+        return <Text>Error</Text>
+    }
+
+    const renderDetail = ({ item }) => (/**bu kısım eğer ki süslü parantez olur ise görüntü alamazsın dikkat et */
+        <DetailCard
+            detail={item}
+            onSelect={() => Linking.openURL(item.strYoutube)}
+        />
+    );
 
     return (
-        <SafeAreaView >
-            <View>
-                <Image />
-                <Text> Details</Text>
-            </View>
-            <View>
-                <Button />
-            </View>
-        </SafeAreaView>
-    )
+        <View>
+            <FlatList data={data.meals} renderItem={renderDetail} />
+        </View>
+
+
+    );
 }
 
 export default Details;
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    }
-})

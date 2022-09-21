@@ -9,7 +9,6 @@ import Details from './src/pages/Details';
 
 const Stack = createStackNavigator();
 
-
 export default function App() {
   return (
     <NavigationContainer>

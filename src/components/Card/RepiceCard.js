@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     image: {
         height: Dimensions.get('window').height/3,
         width: Dimensions.get('window').width - 20,
-        resizeMode: 'contain',
+        // resizeMode: 'contain',
         borderRadius: 20,
     },
     yazi: {
